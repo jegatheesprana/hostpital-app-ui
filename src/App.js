@@ -6,7 +6,8 @@ import "bootstrap/dist/js/bootstrap.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Home from "./Pages/Home";
+// import Home from "./Home/Home";
+import Home from "Pages/Home";
 import DoctorLogin from "./Pages/DoctorLogin";
 import DoctorDashboard from "./Pages/DoctorDashboard";
 import PaitentDashboard from "./Pages/PaitentDashboard";
@@ -24,6 +25,7 @@ import DocAppointments from "./Doctor/PaymentHistory";
 import AppointmentStatus from "./Patient/AppointmentStatus";
 import Pfeedback from './Patient/Feedback';
 import FeedbackDetails from './Doctor/FeedbackDetails';
+import Admin from "./admin";
 
 function App() {
 	const [token, setToken] = useState(window.localStorage.getItem("token"));
@@ -78,6 +80,7 @@ function App() {
 			<AuthContext.Provider value={{ token, setToken, googleId, setGoogleId }}>
 				<Switch>
 					<Route exact path="/" component={Home} />
+					<Route path="/admin" component={Admin} />
 					<Route exact path="/doctorlogin" component={DoctorLogin} />
 					<Route exact path="/doctor" component={DoctorDashboard} />
 					<Route exact path="/patient/searchdoctor" component={SearchDoctor} />
