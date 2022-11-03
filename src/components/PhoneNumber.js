@@ -1,13 +1,13 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { Redirect, useHistory } from 'react-router';
-import { Row,Col, Container, FormGroup, Input, Label, Button } from 'reactstrap';
-import { AuthContext } from '../Auth/AuthContext';
+import { Row, Col, Container, FormGroup, Input, Label, Button } from 'reactstrap';
+import { useAuth } from '../Auth/AuthContext';
 import Navbar from '../Basic/Navbar';
 
 function PhoneNumber() {
     const [number, setNumber] = useState();
-    const { token, googleId } = useContext(AuthContext);
+    const { token, googleId } = useAuth();
     const history = useHistory();
 
     async function updatePhoneNumber() {
@@ -26,7 +26,7 @@ function PhoneNumber() {
                 console.log(res.message)
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
@@ -45,27 +45,27 @@ function PhoneNumber() {
 
                     <Row>
                         <Col >
-                        <Label for='number' ><h5>Phone/Mobile Number</h5> </Label>  
+                            <Label for='number' ><h5>Phone/Mobile Number</h5> </Label>
                         </Col>
                         <Col  >
-                        <Input 
-                        
-                            type='text'
-                            name='phone'
-                            id='phone'
-                            placeholder='provide your phone/mobile number'
-                            
-                            onChange={(e) => setNumber(e.target.value)}
-                        />
+                            <Input
+
+                                type='text'
+                                name='phone'
+                                id='phone'
+                                placeholder='provide your phone/mobile number'
+
+                                onChange={(e) => setNumber(e.target.value)}
+                            />
                         </Col>
-                        
+
                     </Row>
-                    
 
-                       
-                
 
-                    <Button  className="mt-4" block color='primary' onClick={updatePhoneNumber}>Add Phone Number</Button>
+
+
+
+                    <Button className="mt-4" block color='primary' onClick={updatePhoneNumber}>Add Phone Number</Button>
                 </FormGroup>
             </Container>
         </div>

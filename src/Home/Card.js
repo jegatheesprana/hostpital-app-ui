@@ -2,11 +2,11 @@ import { Button } from 'react-bootstrap';
 import React, { useContext } from 'react';
 // import GoogleLogin from 'react-google-login';
 import { Link, useHistory } from "react-router-dom";
-import { AuthContext } from '../Auth/AuthContext';
+import { useAuth } from '../Auth/AuthContext';
 import axios from 'axios';
 
 const Card = ({ login = "Doctor", Image, link }) => {
-  const { token, googleId, setToken, setGoogleId } = useContext(AuthContext);
+  const { token, googleId, setToken, setGoogleId } = useAuth();
   const history = useHistory();
 
   async function loginWithGoogle(e) {
@@ -40,7 +40,7 @@ const Card = ({ login = "Doctor", Image, link }) => {
           }
         }
         else {
-          const err = {err : "Server Didn't respond"}
+          const err = { err: "Server Didn't respond" }
           throw err;
         }
       }

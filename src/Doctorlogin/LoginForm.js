@@ -2,45 +2,40 @@ import React, { useContext, useState } from 'react';
 import { Redirect, useHistory } from "react-router-dom";
 import { Container, Row, Col, Card, Form, CardHeader, CardBody, FormGroup, CardFooter, Button, Label, Input } from 'reactstrap'
 import axios from 'axios';
-import { AuthContext } from '../Auth/AuthContext';
+import { useAuth } from '../Auth/AuthContext';
 
 const LoginForm = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [status, setStatus] = useState(0);
-	const { token, setToken, googleId, setGoogleId } = useContext(AuthContext);
+	const { token, setToken, setUser } = useAuth();
 	const history = useHistory();
 
 	async function login() {
 		try {
-			const res = await axios.post(
+			const { data } = await axios.post(
 				`${process.env.REACT_APP_SERVER_URL}/doctors/login/`,
 				{
 					username: username,
 					password: password
 				}
 			);
-			setStatus(res.status);
 
-			const token = res.data.token;
-
-			if (res.status === 200) {
-				window.localStorage.setItem("token", token);
-
-				// Remove the googleId if it exisits in the local storage
-				window.localStorage.removeItem("googleId");
-				setGoogleId(null);
-				setToken(token);
-				history.push('/doctor');
+			if (data.token && data.user) {
+				setToken(data.token)
+				setUser(data.user)
+				history.replace("/doctor")
+			} else {
+				alert(data.message)
 			}
 		} catch (err) {
 			console.log(err);
 		}
 	}
 
-	if (token && !googleId) {
-		return <Redirect to="/doctor" />
-	}
+	// if (token && !googleId) {
+	// 	return <Redirect to="/doctor" />
+	// }
 	return (
 		<Container className='text-center'>
 			<Row>
@@ -76,9 +71,9 @@ const LoginForm = () => {
 											onChange={(e) => setPassword(e.target.value)}
 											onKeyPress={(target) => {
 												if (target.charCode === 13) {
-                          							login();
-                        					}
-											} }
+													login();
+												}
+											}}
 										/>
 									</Col>
 								</FormGroup>

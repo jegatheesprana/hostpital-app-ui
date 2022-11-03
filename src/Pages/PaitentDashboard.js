@@ -4,12 +4,12 @@ import Leftside from "../Dashbaord/LeftsidePatient";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import "../Dashbaord/dashboard.css";
-import { AuthContext } from "../Auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 
 const PersonalDetails = () => {
   const [patient, setPatient] = useState({});
   const [loading, setLoading] = useState(true);
-  const { googleId } = useContext(AuthContext);
+  const { googleId } = useAuth();
 
   useEffect(() => {
     setLoading(true);

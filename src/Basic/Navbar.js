@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../image/navbaricon1.png";
-import { AuthContext } from "../Auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 import axios from "axios";
 // import GoogleLogin from "react-google-login";
 // import axios from "axios";
 
 const Navbar = () => {
-  const { token, setToken, setGoogleId } = useContext(AuthContext);
+  const { token, setToken, setGoogleId } = useAuth();
   const history = useHistory();
 
   async function loginWithGoogle(e) {
@@ -42,7 +42,7 @@ const Navbar = () => {
           }
         }
         else {
-          const err = {err : "Server Didn't respond"}
+          const err = { err: "Server Didn't respond" }
           throw err;
         }
       }

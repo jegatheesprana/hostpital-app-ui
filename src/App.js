@@ -12,7 +12,7 @@ import DoctorLogin from "./Pages/DoctorLogin";
 import DoctorDashboard from "./Pages/DoctorDashboard";
 import PaitentDashboard from "./Pages/PaitentDashboard";
 import Error from "./Pages/Error";
-import { AuthContext } from "./Auth/AuthContext";
+import { AuthProvider } from "./Auth/AuthContext";
 import PhoneNumber from "./components/PhoneNumber";
 import PersonalDetails from "./Doctor/PersonalDetails";
 import SearchDoctor from "./Patient/SearchDoctor";
@@ -27,11 +27,10 @@ import Pfeedback from './Patient/Feedback';
 import FeedbackDetails from './Doctor/FeedbackDetails';
 import Admin from "./admin";
 
+import PatientLogin from "Patient/PatientLogin";
+import PatientSignup from "Patient/PatientSignup";
+
 function App() {
-	const [token, setToken] = useState(window.localStorage.getItem("token"));
-	const [googleId, setGoogleId] = useState(
-		window.localStorage.getItem("googleId")
-	);
 
 	const [apiLoaded, setApiLoaded] = useState(false);
 
@@ -77,14 +76,16 @@ function App() {
 
 	return apiLoaded ? (
 		<Router>
-			<AuthContext.Provider value={{ token, setToken, googleId, setGoogleId }}>
+			<AuthProvider>
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route path="/admin" component={Admin} />
-					<Route exact path="/doctorlogin" component={DoctorLogin} />
+					<Route exact path="/doctor/login" component={DoctorLogin} />
 					<Route exact path="/doctor" component={DoctorDashboard} />
 					<Route exact path="/patient/searchdoctor" component={SearchDoctor} />
 					<Route exact path="/patient" component={PaitentDashboard} />
+					<Route exact path="/patient/login" component={PatientLogin} />
+					<Route exact path="/patient/signup" component={PatientSignup} />
 					<Route exact path="/patient/update-phone" component={PhoneNumber} />
 					<Route
 						exact
@@ -113,7 +114,7 @@ function App() {
 						<Error />
 					</Route>
 				</Switch>
-			</AuthContext.Provider>
+			</AuthProvider>
 		</Router>
 	) : (
 		<div style={{ width: "100%", display: "flex", justifyContent: "center" }}>

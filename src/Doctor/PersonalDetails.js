@@ -4,10 +4,10 @@ import Leftside from "../Dashbaord/LeftsideDoctor";
 import jwt_decode from "jwt-decode";
 
 import "../Dashbaord/dashboard.css";
-import { AuthContext } from "../Auth/AuthContext";
+import { useAuth } from "../Auth/AuthContext";
 
 const PersonalDetails = () => {
-  const { token } = useContext(AuthContext);
+  const { token } = useAuth();
   const doctor = useMemo(() => jwt_decode(token), [token]);
 
   return (

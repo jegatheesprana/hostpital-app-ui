@@ -1,4 +1,5 @@
 import Doctors from "admin/views/Doctors";
+import AddDoctor from "admin/views/AddDoctor";
 
 import Dashboard from "admin/views/Dashboard.js";
 import UserProfile from "admin/views/UserProfile.js";
@@ -30,6 +31,13 @@ const dashboardRoutes = [
     name: "Doctors",
     icon: "nc-icon nc-chart-pie-35",
     component: Doctors,
+    layout: "/admin"
+  },
+  {
+    path: "/add-doctor",
+    name: "Add Doctor",
+    icon: "nc-icon nc-circle-09",
+    component: AddDoctor,
     layout: "/admin"
   },
   {
