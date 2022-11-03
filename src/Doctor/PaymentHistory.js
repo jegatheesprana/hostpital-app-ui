@@ -33,13 +33,13 @@ const DocAppointments = () => {
   }, []);
 
   return (
-    <div className="bg-dark" style={{ height: "100vh" }}>
+    <div className="bg-dark" style={{ minHeight: "100vh" }}>
       <Navbar />
       <div>
         <div className="row m-5" style={{ maxWidth: "100%" }}>
           <div
             className="col-3 col-md-3 p-4 bg-white "
-            style={{ height: "80vh" }}
+            style={{ minHeight: "80vh" }}
           >
             <Leftside />
           </div>
@@ -47,7 +47,7 @@ const DocAppointments = () => {
             className="col-9 col-md-9 p-3"
             style={{
               border: "15px solid yellow ",
-              height: "80vh",
+              minHeight: "80vh",
               backgroundColor: "#6c757d",
             }}
           >
@@ -62,7 +62,7 @@ const DocAppointments = () => {
                     <th scope="col">Date</th>
                     <th scope="col">Time</th>
                     <th scope="col">Patient Name</th>
-					<th scope="col" style={{textAlign:'center'}}>Feedback</th>
+                    <th scope="col" style={{ textAlign: 'center' }}>Feedback</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -71,10 +71,10 @@ const DocAppointments = () => {
                       <th scope="row">{Appointment.date}</th>
                       <th scope="row">{Appointment.slotTime}</th>
                       <th scope="row">{Appointment.patientName}</th>
-					  {Appointment.feedback.given ? <th scope="row" style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-						  <StarPicker value={Appointment.feedback.stars} size="20"></StarPicker>
-						  <Link to={`/doctor/feedback/${Appointment._id}`}>Details</Link>
-					  </th> : <th scope="row" style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>-</th>}
+                      {Appointment.feedback.given ? <th scope="row" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+                        <StarPicker value={Appointment.feedback.stars} size="20"></StarPicker>
+                        <Link to={`/doctor/feedback/${Appointment._id}`}>Details</Link>
+                      </th> : <th scope="row" style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>-</th>}
                     </tr>
                   ))}
                 </tbody>

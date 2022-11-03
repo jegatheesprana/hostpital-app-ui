@@ -9,13 +9,13 @@ import { useAuth } from "../Auth/AuthContext";
 const PersonalDetails = () => {
   const [patient, setPatient] = useState({});
   const [loading, setLoading] = useState(true);
-  const { googleId } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     setLoading(true);
     const getPatientDetails = async () => {
       const res = await Axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/patients/getPatientDetails/${googleId}`
+        `${process.env.REACT_APP_SERVER_URL}/patients/getPatientDetails/${user._id}`
       );
       if (res.status === 200) {
         setPatient(res.data);
@@ -27,10 +27,10 @@ const PersonalDetails = () => {
       }
     };
     getPatientDetails();
-  }, [googleId]);
+  }, [user]);
 
   return (
-    <div className="bg-dark" style={{ height: "100vh" }}>
+    <div className="bg-dark" style={{ minHeight: "100vh" }}>
       <Navbar />
       {loading ? (
         <div className="row justify-content-center position-relative">
@@ -45,7 +45,7 @@ const PersonalDetails = () => {
           <div className="row m-5" style={{ maxWidth: "100%" }}>
             <div
               className="col-3 col-md-3 p-4 bg-white "
-              style={{ height: "80vh" }}
+              style={{ minHeight: "80vh" }}
             >
               <Leftside />
             </div>
@@ -53,7 +53,7 @@ const PersonalDetails = () => {
               className="col-9 col-md-9 p-4"
               style={{
                 border: "15px solid yellow ",
-                height: "80vh",
+                minHeight: "80vh",
                 backgroundColor: "#6c757d",
               }}
             >
@@ -70,9 +70,9 @@ const PersonalDetails = () => {
                       </li>
                       <li className="list-group-item">
                         <span className="badge badge-success mr-2 p-2">
-                          Email:
+                          User Name:
                         </span>
-                        {patient.email}
+                        {patient.username}
                       </li>
                       <li className="list-group-item">
                         <span className="badge badge-success mr-2 p-2">

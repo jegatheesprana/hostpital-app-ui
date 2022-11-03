@@ -10,12 +10,16 @@ import "assets/css/demo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import AdminLayout from "admin/layouts/Admin.js";
+import AdminLogin from "./views/AdminLogin";
+import { useAuth } from "Auth/AuthContext";
 
 export default function Admin() {
+  const { user } = useAuth()
   return (
     <>
-      <Route path="/" render={(props) => <AdminLayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Route exact path="/admin/login" component={AdminLogin} />
+      {user.type === "admin" && <Route path="/" render={(props) => <AdminLayout {...props} />} />}
+      {user.type !== "admin" && <Redirect to="/admin/login" />}
     </>
   )
 }

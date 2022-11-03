@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useHistory } from "react-router-dom";
-
+import { useAuth } from "Auth/AuthContext";
 import Navbar from "../Basic/Navbar";
 import Leftside from "../Dashbaord/LeftsidePatient";
 import StripeCheckoutButton from "react-stripe-checkout";
@@ -21,6 +21,7 @@ function getEndDateTime(dateTime) {
 const Payment = (props) => {
   const [finalBalnce, setFinalBalnce] = useState(0);
   const history = useHistory();
+  const { user } = useAuth()
 
   function createEvent(id, dateTime, doctorEmail) {
     var virtualEvent = {
@@ -61,7 +62,7 @@ const Payment = (props) => {
     });
 
     request.execute(function (event) {
-      console.log("Executed!");
+      console.log("Executed!", [event]);
 
       // Add meet link
       if (event) {
@@ -85,7 +86,7 @@ const Payment = (props) => {
     const { data } = await Axios.post(
       `${process.env.REACT_APP_SERVER_URL}/doctors/book-slot/`,
       {
-        googleId: localStorage.getItem("googleId"),
+        patientId: user._id,
         patientName: JSON.parse(localStorage.getItem("user")).name,
         slotId: slotId,
         dateId: dateId,
@@ -124,13 +125,13 @@ const Payment = (props) => {
   };
 
   return (
-    <div className="bg-dark" style={{ height: "100vh" }}>
+    <div className="bg-dark" style={{ minminHeight: "100vh" }}>
       <Navbar />
       <div>
         <div className="row m-5" style={{ maxWidth: "100%" }}>
           <div
             className="col-3 col-md-3 p-4 bg-white "
-            style={{ height: "80vh" }}
+            style={{ minminHeight: "80vh" }}
           >
             <Leftside />
           </div>
@@ -138,7 +139,7 @@ const Payment = (props) => {
             className="col-9 col-md-9 p-4 "
             style={{
               border: "15px solid yellow ",
-              height: "80vh",
+              minminHeight: "80vh",
               backgroundColor: "#6c757d",
             }}
           >

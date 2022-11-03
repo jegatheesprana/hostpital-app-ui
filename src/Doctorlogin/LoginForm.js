@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useAuth } from '../Auth/AuthContext';
 
 const LoginForm = () => {
-	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [status, setStatus] = useState(0);
 	const { token, setToken, setUser } = useAuth();
@@ -16,7 +16,7 @@ const LoginForm = () => {
 			const { data } = await axios.post(
 				`${process.env.REACT_APP_SERVER_URL}/doctors/login/`,
 				{
-					username: username,
+					email: email,
 					password: password
 				}
 			);
@@ -51,10 +51,10 @@ const LoginForm = () => {
 									<Col sm={9}>
 										<Input
 											type='text'
-											name='username'
-											id='username'
-											placeholder='provide your username'
-											onChange={(e) => setUsername(e.target.value)}
+											name='email'
+											id='email'
+											placeholder='provide your email'
+											onChange={(e) => setEmail(e.target.value)}
 										/>
 									</Col>
 								</FormGroup>
@@ -77,7 +77,7 @@ const LoginForm = () => {
 										/>
 									</Col>
 								</FormGroup>
-								{status === 201 && <p className="warning" style={{ color: "red", fontSize: "15px" }}>Wrong username or password! Please try again</p>}
+								{status === 201 && <p className="warning" style={{ color: "red", fontSize: "15px" }}>Wrong email or password! Please try again</p>}
 							</CardBody>
 							<CardFooter>
 								<Button block color="primary" onClick={login}>

@@ -16,7 +16,7 @@
 
 */
 import React, { Component } from "react";
-import { useLocation, Route, Switch } from "react-router-dom";
+import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 
 import AdminNavbar from "admin/components/Navbars/AdminNavbar";
 import Footer from "admin/components/Footer/Footer";
@@ -28,8 +28,8 @@ import routes from "admin/routes.js";
 import sidebarImage from "assets/img/sidebar-3.jpg";
 
 function Admin() {
-  const [image, setImage] = React.useState(sidebarImage);
-  const [color, setColor] = React.useState("black");
+  const [image, setImage] = React.useState();
+  const [color, setColor] = React.useState("blue");
   const [hasImage, setHasImage] = React.useState(true);
   const location = useLocation();
   const mainPanel = React.useRef(null);
@@ -68,7 +68,10 @@ function Admin() {
         <div className="main-panel" ref={mainPanel}>
           <AdminNavbar />
           <div className="content">
-            <Switch>{getRoutes(routes)}</Switch>
+            <Switch>
+              {getRoutes(routes)}
+              <Redirect from="/" to="/admin/doctors" />
+            </Switch>
           </div>
           <Footer />
         </div>

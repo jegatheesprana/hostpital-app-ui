@@ -5,14 +5,17 @@ import jwt_decode from "jwt-decode";
 import Navbar from "../Basic/Navbar";
 import "../Dashbaord/dashboard.css";
 import Leftside from "../Dashbaord/LeftsidePatient";
+import { useAuth } from "Auth/AuthContext";
 
 const AppointmentStatus = () => {
     const [appointments, setAppointments] = useState([]);
     const [isLoading, setIsLoading] = useState()
     const [filteredAppointments, setFilteredAppointments] = useState()
 
+    const { user } = useAuth()
+
     function getMeetLink(id) {
-        if(filteredAppointments !== undefined){
+        if (filteredAppointments !== undefined) {
             const meetCode = filteredAppointments.find((apntmnt) => {
                 return apntmnt.id === id
             })
@@ -29,10 +32,10 @@ const AppointmentStatus = () => {
             var { data } = await Axios.post(
                 `${process.env.REACT_APP_SERVER_URL}/patients/upcoming-appointments/`,
                 {
-                    googleId: localStorage.getItem("googleId"),
+                    patientId: user._id,
                 }
             );
-            
+
             // const response = await window.gapi.client.calendar.events.list({
             //     'calendarId': 'primary',
             //     'timeMin': (new Date()).toISOString(),
@@ -61,13 +64,13 @@ const AppointmentStatus = () => {
 
 
     return (
-        <div className="bg-dark" style={{ height: "100vh" }}>
+        <div className="bg-dark" style={{ minHeight: "100vh" }}>
             <Navbar />
             <div>
                 <div className="row m-5" style={{ maxWidth: "100%" }}>
                     <div
                         className="col-3 col-md-3 p-4 bg-white "
-                        style={{ height: "80vh" }}
+                        style={{ minHeight: "80vh" }}
                     >
                         <Leftside />
                     </div>
@@ -76,7 +79,7 @@ const AppointmentStatus = () => {
                         className="col-9 col-md-9 p-4"
                         style={{
                             border: "15px solid yellow ",
-                            height: "80vh",
+                            minHeight: "80vh",
                             backgroundColor: "#6c757d",
                         }}
                     >
@@ -95,12 +98,12 @@ const AppointmentStatus = () => {
                                         <th scope="row">{Appointment.date}</th>
                                         <th scope="row">{Appointment.slotTime}</th>
                                         <th scope="row">{Appointment.doctorName}</th>
-                                        <th scope="row"> <a href={Appointment.googleMeetLink} target="_blank">Join Meet</a></th>
+                                        <th scope="row"> <a href={Appointment.googleMeetLink || `https://meet.google.com/${Appointment._id}`} target="_blank">Join Meet</a></th>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                    </div> }
+                    </div>}
                 </div>
             </div>
         </div>

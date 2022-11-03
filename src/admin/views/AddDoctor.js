@@ -17,7 +17,7 @@ import {
 
 function AddDoctor() {
     const [values, setValues] = useState({
-        username: '',
+        email: '',
         password: '',
         name: '',
         phoneNumber: '',
@@ -103,12 +103,12 @@ function AddDoctor() {
 
                                         <Col className="pr-1" md="6">
                                             <Form.Group>
-                                                <label>Username</label>
+                                                <label>Email</label>
                                                 <Form.Control
-                                                    name="username"
+                                                    name="email"
                                                     onChange={handleChange}
-                                                    value={values.username}
-                                                    placeholder="Username"
+                                                    value={values.email}
+                                                    placeholder="Email"
                                                     type="text"
                                                 ></Form.Control>
                                             </Form.Group>

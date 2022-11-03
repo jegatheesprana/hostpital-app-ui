@@ -104,13 +104,21 @@ const Navbar = () => {
         <ul className="navbar-nav ml-auto text-light bg-dark">
           <li className="navbar-item" style={{ textAlign: "right" }}>
             <link to="/" className="nav-link " style={{ padding: 0 }} />
-            {!token && (
+            {/* {!token && (
               <button
                 onClick={loginWithGoogle}
                 className="btn btn-outline-primary"
               >
                 Login As A Patient
               </button>
+            )} */}
+            {!token && (
+              <Link
+                to="patient/login"
+                className="btn btn-outline-primary"
+              >
+                Login As A Patient
+              </Link>
             )}
             {token && (
               <button

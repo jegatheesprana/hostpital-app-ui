@@ -5,7 +5,7 @@ import Search from "../Doctor/Search";
 
 const SearchDoctor = () => {
   return (
-    <div className="bg-dark" style={{ height: "100vh" }}>
+    <div className="bg-dark" style={{ minHeight: "100vh" }}>
       <Navbar />
       <div>
         <div className="row m-5" style={{ maxWidth: "100%" }}>
@@ -16,7 +16,7 @@ const SearchDoctor = () => {
             className="col-9 col-md-9 p-4"
             style={{
               border: "15px solid yellow ",
-              height: "80vh",
+              minHeight: "80vh",
               backgroundColor: "#6c757d",
             }}
           >

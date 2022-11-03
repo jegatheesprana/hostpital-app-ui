@@ -4,20 +4,21 @@ import Scrollbar from "react-scrollbars-custom";
 import { BsPencilSquare } from "react-icons/bs";
 import Navbar from "../Basic/Navbar";
 import "../Dashbaord/dashboard.css";
-
+import { useAuth } from "Auth/AuthContext";
 import Leftside from "../Dashbaord/LeftsidePatient";
 
 import { Link } from "react-router-dom";
 
 const PatientAppointments = () => {
   const [Appointments, setAppointments] = useState([]);
+  const { user } = useAuth()
 
   const fetchAppointments = async () => {
 
     const { data } = await Axios.post(
       `${process.env.REACT_APP_SERVER_URL}/patients/previous-appointments/`,
       {
-        googleId: localStorage.getItem("googleId"),
+        patientId: user._id,
       }
     );
     // console.log(data);
@@ -29,13 +30,13 @@ const PatientAppointments = () => {
   }, []);
 
   return (
-    <div className="bg-dark" style={{ height: "100vh" }}>
+    <div className="bg-dark" style={{ minHeight: "100vh" }}>
       <Navbar />
       <div>
         <div className="row m-5" style={{ maxWidth: "100%" }}>
           <div
             className="col-3 col-md-3 p-4 bg-white "
-            style={{ height: "80vh" }}
+            style={{ minHeight: "80vh" }}
           >
             <Leftside />
           </div>
@@ -43,7 +44,7 @@ const PatientAppointments = () => {
             className="col-9 col-md-9 p-3"
             style={{
               border: "15px solid yellow ",
-              height: "80vh",
+              minHeight: "80vh",
               backgroundColor: "#6c757d",
             }}
           >

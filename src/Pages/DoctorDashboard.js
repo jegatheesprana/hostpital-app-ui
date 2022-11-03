@@ -6,13 +6,13 @@ import "../Dashbaord/dashboard.css";
 
 const DoctorDashboard = () => {
   return (
-    <div className="bg-dark" style={{ height: "100vh" }}>
+    <div className="bg-dark" style={{ minHeight: "100vh" }}>
       <Navbar />
       <div>
         <div className="row m-5" style={{ maxWidth: "100%" }}>
           <div
             className="col-3 col-md-3 p-4 bg-white "
-            style={{ height: "80vh" }}
+            style={{ minHeight: "80vh" }}
           >
             <Leftside />
           </div>
@@ -20,7 +20,7 @@ const DoctorDashboard = () => {
             className="col-9 col-md-9 p-4"
             style={{
               border: "15px solid yellow ",
-              height: "80vh",
+              minHeight: "80vh",
               backgroundColor: "#6c757d",
             }}
           >
