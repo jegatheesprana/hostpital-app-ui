@@ -7,6 +7,7 @@ import Leftside from "../Dashbaord/LeftsidePatient";
 import StripeCheckoutButton from "react-stripe-checkout";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { createMeeting, getToken, validateMeeting } from 'meeting/api'
 // import { Toast } from "react-toastify/dist/components";
 
 function getEndDateTime(dateTime) {
@@ -23,61 +24,74 @@ const Payment = (props) => {
   const history = useHistory();
   const { user } = useAuth()
 
-  function createEvent(id, dateTime, doctorEmail) {
-    var virtualEvent = {
-      id: id,
-      summary: "Appointment",
-      location: "Virtual",
-      description: "Doctor-Patient appointment",
-      start: {
-        dateTime: dateTime,
-        timeZone: "Asia/Kolkata",
-      },
-      end: {
-        dateTime: getEndDateTime(dateTime),
-        timeZone: "Asia/Kolkata",
-      },
-      conferenceData: {
-        createRequest: {
-          requestId: "7qxalsvy0e",
-        },
-      },
-      attendees: [{ email: doctorEmail }],
-      guestsCanModify: true,
-      reminders: {
-        useDefault: false,
-        overrides: [
-          { method: "email", minutes: 24 * 60 },
-          { method: "popup", minutes: 15 },
-        ],
-      },
-    };
+  async function createEvent(id, dateTime, doctorEmail) {
+    // var virtualEvent = {
+    //   id: id,
+    //   summary: "Appointment",
+    //   location: "Virtual",
+    //   description: "Doctor-Patient appointment",
+    //   start: {
+    //     dateTime: dateTime,
+    //     timeZone: "Asia/Kolkata",
+    //   },
+    //   end: {
+    //     dateTime: getEndDateTime(dateTime),
+    //     timeZone: "Asia/Kolkata",
+    //   },
+    //   conferenceData: {
+    //     createRequest: {
+    //       requestId: "7qxalsvy0e",
+    //     },
+    //   },
+    //   attendees: [{ email: doctorEmail }],
+    //   guestsCanModify: true,
+    //   reminders: {
+    //     useDefault: false,
+    //     overrides: [
+    //       { method: "email", minutes: 24 * 60 },
+    //       { method: "popup", minutes: 15 },
+    //     ],
+    //   },
+    // };
 
-    var request = window.gapi.client.calendar.events.insert({
-      calendarId: "primary",
-      resource: virtualEvent,
-      sendUpdates: "all",
-      supportsAttachments: true,
-      conferenceDataVersion: 1,
-    });
+    // var request = window.gapi.client.calendar.events.insert({
+    //   calendarId: "primary",
+    //   resource: virtualEvent,
+    //   sendUpdates: "all",
+    //   supportsAttachments: true,
+    //   conferenceDataVersion: 1,
+    // });
 
-    request.execute(function (event) {
-      console.log("Executed!", [event]);
+    // request.execute(function (event) {
+    //   console.log("Executed!", [event]);
 
-      // Add meet link
-      if (event) {
-        // console.log(`AddEvent link : ${event.hangoutLink}, Id : ${id}`)
-        axios.put(
-          `${process.env.REACT_APP_SERVER_URL}/appointments/add-meet-link`,
-          {
-            appointmentId: id,
-            meetLink: event.hangoutLink
-          }
-        ).then((x) => {
-          console.log(`Updated Meet Link!`);
-        })
+    //   // Add meet link
+    //   if (event) {
+    //     // console.log(`AddEvent link : ${event.hangoutLink}, Id : ${id}`)
+    //     axios.put(
+    //       `${process.env.REACT_APP_SERVER_URL}/appointments/add-meet-link`,
+    //       {
+    //         appointmentId: id,
+    //         meetLink: event.hangoutLink
+    //       }
+    //     ).then((x) => {
+    //       console.log(`Updated Meet Link!`);
+    //     })
+    //   }
+    // });
+
+    const token = await getToken();
+    const _meetingId = await createMeeting({ token });
+    const meetingLink = `/meeting/${_meetingId}`
+    axios.put(
+      `${process.env.REACT_APP_SERVER_URL}/appointments/add-meet-link`,
+      {
+        appointmentId: id,
+        meetLink: meetingLink
       }
-    });
+    ).then((x) => {
+      console.log(`Updated Meet Link!`);
+    })
   }
 
   const { dateId, doctor, slotId } = props.location.data;

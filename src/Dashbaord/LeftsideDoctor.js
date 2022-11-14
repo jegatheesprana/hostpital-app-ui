@@ -24,6 +24,12 @@ const LeftsideDoctor = () => {
           </Link>
         </li>
 
+        <li style={{ textDecoration: "none" }}>
+          <Link to="/doctor/all-appointments">
+            <Option Value="All Appointments" />
+          </Link>
+        </li>
+
         {/* <li style={{ textDecoration: "none" }}>
           <Link to="/doctor/feedback">
             <Option Value="Feedback" />

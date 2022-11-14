@@ -3,17 +3,25 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@emotion/react": "^11.10.5",
+        "@emotion/styled": "^11.10.5",
         "@fortawesome/fontawesome-free": "5.15.2",
+        "@heroicons/react": "^1.0.2",
+        "@material-ui/core": "^4.11.4",
+        "@material-ui/icons": "^4.11.2",
         "@testing-library/jest-dom": "^5.11.4",
         "@testing-library/react": "^11.1.0",
         "@testing-library/user-event": "^12.1.10",
+        "@videosdk.live/react-sdk": "^0.1.53",
         "axios": "^0.21.1",
         "bootstrap": "^4.6.0",
         "chartist": "0.11.4",
         "gulp": "4.0.2",
         "gulp-append-prepend": "1.0.9",
+        "hls.js": "^1.2.5",
         "jwt-decode": "^3.1.2",
         "mdbreact": "^5.0.1",
+        "notistack": "^2.0.8",
         "popper.js": "^1.16.1",
         "react": "^17.0.1",
         "react-bootstrap": "^1.5.1",
@@ -23,7 +31,11 @@
         "react-dom": "^17.0.1",
         "react-google-login": "^5.2.2",
         "react-icons": "^4.2.0",
+        "react-lottie": "^1.2.3",
+        "react-motion": "^0.5.2",
         "react-notification-alert": "0.0.13",
+        "react-player": "^2.10.1",
+        "react-responsive": "^9.0.0",
         "react-router-dom": "^5.2.0",
         "react-scripts": "4.0.3",
         "react-scrollbars-custom": "^4.0.25",
@@ -61,5 +73,11 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "devDependencies": {
+        "@tailwindcss/typography": "^0.5.0-alpha.2",
+        "autoprefixer": "^10.4.13",
+        "postcss": "^8.4.19",
+        "tailwindcss": "^2.2.19"
     }
 }

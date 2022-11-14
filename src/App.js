@@ -26,9 +26,11 @@ import AppointmentStatus from "./Patient/AppointmentStatus";
 import Pfeedback from './Patient/Feedback';
 import FeedbackDetails from './Doctor/FeedbackDetails';
 import Admin from "./admin";
+import Meeting from "meeting";
 
 import PatientLogin from "Patient/PatientLogin";
 import PatientSignup from "Patient/PatientSignup";
+import AllAppointments from "Doctor/AllAppointments";
 
 function App() {
 
@@ -80,8 +82,11 @@ function App() {
 				<Switch>
 					<Route exact path="/" component={Home} />
 					<Route path="/admin" component={Admin} />
+					<Route exact path="/meeting" component={Meeting} />
+					<Route exact path="/meeting/:meetingId" component={Meeting} />
 					<Route exact path="/doctor/login" component={DoctorLogin} />
 					<Route exact path="/doctor" component={DoctorDashboard} />
+					<Route exact path="/doctor/all-appointments" component={AllAppointments} />
 					<Route exact path="/patient/searchdoctor" component={SearchDoctor} />
 					<Route exact path="/patient" component={PaitentDashboard} />
 					<Route exact path="/patient/login" component={PatientLogin} />
