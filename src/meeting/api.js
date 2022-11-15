@@ -27,7 +27,7 @@ export const createMeeting = async ({ token }) => {
 };
 
 export const validateMeeting = async ({ roomId, token }) => {
-    const url = `${API_BASE_URL}/v2/rooms/validate/${roomId}`;
+    const url = `${API_BASE_URL}/validate-meeting/${roomId}`;
 
     const options = {
         method: "GET",
@@ -38,5 +38,5 @@ export const validateMeeting = async ({ roomId, token }) => {
         .then((response) => response.json()) //result will have meeting id
         .catch((error) => console.error("error", error));
 
-    return result ? result.roomId === roomId : false;
+    return result;
 };

@@ -336,8 +336,10 @@ export function JoiningScreen({
     }
   }, [videoTrack, setting, settingDialogueOpen]);
 
-  useEffect(() => {
+  useEffect(async () => {
     getDevices({ micEnabled, webcamEnabled });
+    const token = await getToken();
+    setToken(token)
   }, []);
 
   return (
@@ -573,6 +575,7 @@ export function JoiningScreen({
             >
               <div className="w-full flex flex-1 flex-col items-center justify-center xl:m-16 lg:m-6  md:mt-11 lg:mt-4">
                 <MeetingDetailsScreen
+                  meetingId={meetingId}
                   participantName={participantName}
                   setParticipantName={setParticipantName}
                   videoTrack={videoTrack}

@@ -1,9 +1,11 @@
 import { CheckIcon, ClipboardIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useResponsiveSize from "../hooks/useResponsiveSize";
 import { meetingModes, meetingTypes } from "../utils/common";
+import { createMeeting, getToken, validateMeeting } from "../api";
 
 export function MeetingDetailsScreen({
+  meetingId: _meetingId,
   onClickJoin,
   _handleOnCreateMeeting,
   participantName,
@@ -15,11 +17,14 @@ export function MeetingDetailsScreen({
   setMeetingType,
   setMeetingMode,
 }) {
-  const [meetingId, setMeetingId] = useState("");
+  const [meetingId, setMeetingId] = useState(_meetingId);
   const [meetingIdError, setMeetingIdError] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const [iscreateMeetingClicked, setIscreateMeetingClicked] = useState(false);
+  const [iscreateMeetingClicked, setIscreateMeetingClicked] = useState(true);
   const [isJoinMeetingClicked, setIsJoinMeetingClicked] = useState(false);
+  const [canJoin, setCanJoin] = useState(false)
+  const [errorMsg, setErrorMsg] = useState("")
+
   const padding = useResponsiveSize({
     xl: 6,
     lg: 6,
@@ -31,6 +36,29 @@ export function MeetingDetailsScreen({
     { label: "Meeting", value: meetingTypes.MEETING },
     { label: "Interactive Live Streaming", value: meetingTypes.ILS },
   ];
+
+  useEffect(async () => {
+    const token = await getToken();
+    const result = await validateMeeting({
+      roomId: meetingId,
+      token,
+    });
+    if (result.valid) {
+      const canJoin = result.meetingStarted && !result.meetingEnded
+      console.log(canJoin)
+      if (canJoin) {
+        setCanJoin(true)
+      } else {
+        if (!result.meetingStarted) {
+          setErrorMsg("Meeting will start at: " + result.appointment.date + ":" + result.appointment.slotTime)
+        } else if (result.meetingEnded) {
+          setErrorMsg("You missed the meeting. Meeting was at: " + result.appointment.date + ":" + result.appointment.slotTime)
+        }
+      }
+    } else {
+      alert("Invalid meeting")
+    }
+  }, [])
 
   return (
     <div
@@ -90,16 +118,16 @@ export function MeetingDetailsScreen({
             onChange={(e) => setParticipantName(e.target.value)}
             placeholder="Enter your name"
             className="px-4 py-3 mt-5 bg-gray-650 rounded-xl text-white w-full text-center"
+            disabled
           />
 
           {/* <p className="text-xs text-white mt-1 text-center">
             Your name will help everyone identify you in the meeting.
           </p> */}
           <button
-            disabled={participantName.length < 3}
-            className={`w-full ${
-              participantName.length < 3 ? "bg-gray-650" : "bg-purple-350"
-            }  text-white px-2 py-3 rounded-xl mt-5`}
+            disabled={participantName.length < 3 || !canJoin}
+            className={`w-full ${(participantName.length < 3 || !canJoin) ? "bg-gray-650" : "bg-purple-350"
+              }  text-white px-2 py-3 rounded-xl mt-5`}
             onClick={(e) => {
               if (iscreateMeetingClicked) {
                 if (videoTrack) {
@@ -114,13 +142,14 @@ export function MeetingDetailsScreen({
               }
             }}
           >
-            {iscreateMeetingClicked
+            {/* {iscreateMeetingClicked
               ? meetingType === meetingTypes.MEETING
-                ? "Start a meeting"
+                ? "Start the meeting"
                 : "Join Studio"
               : meetingType === meetingTypes.MEETING
-              ? "Join a meeting"
-              : "Join Streaming Room"}
+                ? "Join a meeting"
+                : "Join Streaming Room"} */}
+            {canJoin ? "Start the meeting" : errorMsg}
           </button>
         </>
       )}
@@ -132,9 +161,8 @@ export function MeetingDetailsScreen({
             {selectType.map((item, index) => (
               <div
                 key={`radio_${index}`}
-                className={`flex  ${
-                  index === 1 ? "flex-1 md:ml-2 lg:ml-0 xl:ml-2" : "2xl:flex-1"
-                } items-center mb-2 md:mb-4 mt-2 lg:mb-2 xl:mb-4 bg-gray-650 rounded-lg`}
+                className={`flex  ${index === 1 ? "flex-1 md:ml-2 lg:ml-0 xl:ml-2" : "2xl:flex-1"
+                  } items-center mb-2 md:mb-4 mt-2 lg:mb-2 xl:mb-4 bg-gray-650 rounded-lg`}
               >
                 <input
                   id={`radio${index}`}

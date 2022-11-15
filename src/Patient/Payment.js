@@ -7,7 +7,7 @@ import Leftside from "../Dashbaord/LeftsidePatient";
 import StripeCheckoutButton from "react-stripe-checkout";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { createMeeting, getToken, validateMeeting } from 'meeting/api'
+import { createMeeting, getToken } from 'meeting/api'
 // import { Toast } from "react-toastify/dist/components";
 
 function getEndDateTime(dateTime) {
@@ -87,7 +87,8 @@ const Payment = (props) => {
       `${process.env.REACT_APP_SERVER_URL}/appointments/add-meet-link`,
       {
         appointmentId: id,
-        meetLink: meetingLink
+        meetLink: meetingLink,
+        meetingId: _meetingId
       }
     ).then((x) => {
       console.log(`Updated Meet Link!`);

@@ -9,13 +9,15 @@ import { meetingModes, meetingTypes } from "./utils/common";
 import { MeetingContainer } from "./meeting/MeetingContainer";
 import { ILSContainer } from "./interactive-live-streaming/ILSContainer";
 import { useParams } from "react-router-dom";
+import { useAuth } from "Auth/AuthContext";
 
 const MeetingCore = () => {
   const { meetingId: _meetingId } = useParams()
+  const { user } = useAuth()
 
   const [token, setToken] = useState("");
   const [meetingId, setMeetingId] = useState(_meetingId || "");
-  const [participantName, setParticipantName] = useState("");
+  const [participantName, setParticipantName] = useState(user.name);
   const [micOn, setMicOn] = useState(true);
   const [webcamOn, setWebcamOn] = useState(true);
   const [selectedMic, setSelectedMic] = useState({ id: null });
