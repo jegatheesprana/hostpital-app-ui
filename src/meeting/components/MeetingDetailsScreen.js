@@ -57,6 +57,7 @@ export function MeetingDetailsScreen({
       }
     } else {
       alert("Invalid meeting")
+      setErrorMsg("Invalid meeting link")
     }
   }, [])
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, createRef } from "react";
+import { useHistory } from 'react-router-dom'
 import { Constants, useMeeting, usePubSub } from "@videosdk.live/react-sdk";
 import { BottomBar } from "./components/BottomBar";
 import { SidebarConatiner } from "../components/sidebar/SidebarContainer";
@@ -9,8 +10,11 @@ import { nameTructed, trimSnackBarText } from "../utils/helper";
 import useResponsiveSize from "../hooks/useResponsiveSize";
 import useWindowSize from "../hooks/useWindowSize";
 import WaitingToJoinScreen from "../components/screens/WaitingToJoinScreen";
+import { getTimeLeft } from "meeting/api";
 
 export function MeetingContainer({
+  meetingId,
+  token,
   onMeetingLeave,
   setIsMeetingLeft,
   selectedMic,
@@ -26,9 +30,12 @@ export function MeetingContainer({
 }) {
   const bottomBarHeight = 60;
 
+  const history = useHistory()
+
   const [containerHeight, setContainerHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
   const [sideBarMode, setSideBarMode] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(0)
   const [localParticipantAllowedJoin, setLocalParticipantAllowedJoin] =
     useState(null);
 
@@ -37,6 +44,24 @@ export function MeetingContainer({
   const containerHeightRef = useRef();
   const containerWidthRef = useRef();
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const result = await getTimeLeft({ roomId: meetingId, token })
+      if (result.timeLeft > 0) {
+        const timeLeft = result.timeLeft / 60000
+        setTimeLeft(timeLeft.toFixed(0))
+      } else {
+        setTimeLeft(0)
+        // onMeetingLeave();
+        history.push('/')
+      }
+    }, 5000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
 
   useEffect(() => {
     containerHeightRef.current = containerHeight;
@@ -223,6 +248,7 @@ export function MeetingContainer({
             </div>
 
             <BottomBar
+              timeLeft={timeLeft}
               bottomBarHeight={bottomBarHeight}
               sideBarMode={sideBarMode}
               setSideBarMode={setSideBarMode}

@@ -53,6 +53,7 @@ const useStyles = makeStyles({
   },
 });
 export function BottomBar({
+  timeLeft,
   bottomBarHeight,
   sideBarMode,
   setSideBarMode,
@@ -133,12 +134,12 @@ export function BottomBar({
           recordingState === Constants.recordingEvents.RECORDING_STARTED
             ? "Stop Recording"
             : recordingState === Constants.recordingEvents.RECORDING_STARTING
-            ? "Starting Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPED
-            ? "Start Recording"
-            : recordingState === Constants.recordingEvents.RECORDING_STOPPING
-            ? "Stopping Recording"
-            : "Start Recording"
+              ? "Starting Recording"
+              : recordingState === Constants.recordingEvents.RECORDING_STOPPED
+                ? "Start Recording"
+                : recordingState === Constants.recordingEvents.RECORDING_STOPPING
+                  ? "Stopping Recording"
+                  : "Start Recording"
         }
         lottieOption={isRecording ? defaultOptions : null}
         isRequestProcessing={isRequestProcessing}
@@ -460,8 +461,8 @@ export function BottomBar({
               ? false
               : true
             : isMobile
-            ? true
-            : false
+              ? true
+              : false
         }
       />
     ) : (
@@ -585,6 +586,18 @@ export function BottomBar({
     );
   };
 
+  const MeetingTimeLeft = () => {
+    const { meetingId } = useMeeting();
+    const [isCopied, setIsCopied] = useState(false);
+    return (
+      <div className="flex items-center justify-center lg:ml-0 ml-4 mt-4 xl:mt-0">
+        <div className="flex border-2 border-gray-850 p-2 rounded-md items-center justify-center">
+          <h1 className="text-white text-base ">Time Left: {timeLeft} mins</h1>
+        </div>
+      </div >
+    );
+  };
+
   const tollTipEl = useRef();
   const isMobile = useIsMobile();
   const isTab = useIsTab();
@@ -668,6 +681,7 @@ export function BottomBar({
   ) : (
     <div className="md:flex lg:px-2 xl:px-6 pb-2 px-2 hidden">
       <MeetingIdCopyBTN />
+      <MeetingTimeLeft />
 
       <div className="flex flex-1 items-center justify-center" ref={tollTipEl}>
         <RecordingBTN />

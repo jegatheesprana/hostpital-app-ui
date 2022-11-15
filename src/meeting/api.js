@@ -40,3 +40,18 @@ export const validateMeeting = async ({ roomId, token }) => {
 
     return result;
 };
+
+export const getTimeLeft = async ({ roomId, token }) => {
+    const url = `${API_BASE_URL}/time-left/${roomId}`;
+
+    const options = {
+        method: "GET",
+        headers: { Authorization: token, "Content-Type": "application/json" },
+    };
+
+    const result = await fetch(url, options)
+        .then((response) => response.json()) //result will have meeting id
+        .catch((error) => console.error("error", error));
+
+    return result;
+};

@@ -135,6 +135,8 @@ const MeetingCore = () => {
           >
             {meetingType === meetingTypes.MEETING ? (
               <MeetingContainer
+                token={token}
+                meetingId={meetingId}
                 onMeetingLeave={() => {
                   setToken("");
                   setMeetingId("");
